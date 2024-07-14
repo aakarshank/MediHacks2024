@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Scanner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #fff;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            padding: 10px 20px;
+            border-bottom: 1px solid #ddd;
+            background-color: #fff;
+        }
+        .navbar a {
+            color: #333;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 1em;
+        }
+        .navbar a:first-child {
+            margin-left: 0;
+        }
+        .navbar a:hover {
+            color: #f05a28;
+        }
+        .navbar a.active {
+            color: #f05a28;
+            font-weight: bold;
+        }
+        .container {
+            text-align: center;
+            max-width: 800px;
+            padding: 20px;
+            margin-top: 50px; /* Add margin to move content below navbar */
+        }
+        .highlight {
+            text-decoration: underline wavy orange;
+        }
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .button {
+            background-color: #f05a28;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .button-secondary {
+            background-color: #ddd;
+            color: #333;
+        }
+        .button:hover {
+            opacity: 0.9;
+        }
+        video {
+            width: 100%;
+            max-width: 500px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        canvas {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <video id="video" autoplay></video>
+        <div class="button-group">
+            <button id="snap" class="button">Capture Photo</button>
+        </div>
+        <div id="output"></div>
+        <canvas id="canvas"></canvas>
+    </div>
+    <script>
+        // Get access to the camera
+        const video = document.getElementById('video');
+
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+                video.srcObject = stream;
+                video.play();
+            });
+        }
+        // Elements for taking the snapshot
+        const canvas = document.getElementById('canvas');
+        const context = canvas.getContext('2d');
+        const snap = document.getElementById('snap');
+        const output = document.getElementById('output');
+
+        snap.addEventListener('click', function() {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            canvas.style.display = 'block';
+            canvas.toBlob(function(blob) {
+                const formData = new FormData();
+                formData.append('image', blob, 'image.jpg');
+                console.log("blobbb")
+                // Send the image to the server
+                fetch('http://localhost:3000/upload', {
+                    method: 'POST',
+                    body: formData
+                }).then(response => response.json())
+                  .then(data => {
+                    if (data.success) {
+                        output.innerText = data.text;
+                        //downloadLink.innerHTML = `<a href="${data.url}" download>Download Image</a>`;
+                    }
+                }).catch(error => console.error('Error:', error));
+            }, 'image/jpeg');
+        });
+
+        
+
+    </script>
+</body>
+</html>

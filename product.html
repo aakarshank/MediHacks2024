@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            background-color: #1A1A17;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .typewriter-wrapper {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .typewriter {
+            display: inline-block;
+            overflow: hidden;
+            border-right: .15em solid orange;
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: .15em;
+            font-size: 40px; /* Increased font size */
+            animation: typing 6s steps(40, end) forwards, blink-caret .75s step-end infinite;
+        }
+
+        .backspace {
+            animation: backspace 4s steps(40, end) forwards, blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes backspace {
+            from { width: 100% }
+            to { width: 0 }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: orange }
+        }
+
+        input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 3px solid orange; /* Thicker border to match bigger font */
+            color: white;
+            font-size: 40px; /* Increased font size */
+            padding: 5px;
+            margin-left: 10px;
+            width: 250px; /* Wider field to accommodate bigger text */
+            display: none;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        input:focus {
+            outline: none;
+        }
+        .product-result {
+            width: 50vw;
+            height: 50vh;
+
+        }
+    </style>
+</head>
+<body>
+    <div class="typewriter-wrapper" id="first-prompt">
+        <div class="typewriter" id="first-text">
+            What is the most you're willing to spend?
+        </div>
+        <input type="text" id="spending-input">
+    </div>
+
+    <div class="typewriter-wrapper" id="second-prompt" style="display:none;">
+        <div class="typewriter" id="second-text">
+            What problem are you trying to solve?
+        </div>
+        <input type="text" id="problem-input">
+    </div>
+
+    <div id ="product-result" className = "product-result">
+        <h1 id ="recommended-product"></h1>
+    </div>
+
+
+    <script>
+        let budget;
+        setTimeout(() => {
+            document.getElementById('spending-input').style.display = 'inline-block';
+        }, 6000);
+
+        document.getElementById('spending-input').addEventListener('change', function() {
+            var spendingAmount = this.value;
+            console.log('Spending Amount:', spendingAmount);
+            budget = spendingAmount;
+            this.style.display = 'none';
+            document.getElementById('first-text').classList.add('backspace');
+            setTimeout(() => {
+                document.getElementById('first-prompt').style.display = 'none';
+                document.getElementById('second-prompt').style.display = 'flex';
+                document.getElementById('second-text').classList.add('typewriter');
+                setTimeout(() => {
+                    document.getElementById('second-text').style.borderRight = 'none';
+                    document.getElementById('problem-input').style.display = 'inline-block';
+                }, 6000);
+            }, 4000);
+        });
+
+        document.getElementById('problem-input').addEventListener('change', function() {
+            var problem = this.value;
+            console.log('Problem:', problem);
+            this.style.display = 'none';
+            document.getElementById('second-text').classList.add('backspace');
+            setTimeout(() => {
+                document.getElementById('second-prompt').style.display = 'none';
+            }, 4000);
+
+            fetch("http://localhost:3000/get-products", {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      "problem": problem,
+      "spending_amount": budget
+    })
+  }).then((response) => response.json()).then(data => {
+    console.log(data.products, "dataa");
+    document.getElementById("recommended-product").innerHTML = data.products;
+  }).catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>
