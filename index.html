@@ -1,115 +1,55 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        i see london i see france i see akshay in his underpants
-    </head>
-    <body>
-
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playwrite+CU:wght@100..400&display=swap">
     <style>
-        html {
-    height: 100%;
-    width: 100%;
-  }
-  
-  body {
-          font-family: Arial, sans-serif;
-          margin: 0;
-          padding: 0;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          background-color: #fff;
-  }
-  .navbar {
-          display: flex;
-          justify-content: center;
-          width: 100%;
-          padding: 10px 20px;
-          border-bottom: 1px solid #ddd;
-          background-color: #fff;
-  }
-  .navbar a {
-          color: #333;
-          text-decoration: none;
-          margin-left: 20px;
-          font-size: 1em;
-      }
-      .navbar a:first-child {
-          margin-left: 0;
-      }
-      .navbar a:hover {
-          color: #f05a28;
-      }
-      .navbar a.active {
-          color: #f05a28;
-          font-weight: bold;
-      }
-      .container {
-          text-align: center;
-          max-width: 800px;
-          padding: 20px;
-          margin-top: 50px; /* Add margin to move content below navbar */
-      }
-      .logo {
-          width: 150px;
-          height: auto;
-          margin-bottom: 20px;
-      }
-      h1 {
-          font-size: 2.5em;
-          margin-bottom: 0.5em;
-      }
-      .highlight {
-          text-decoration: underline wavy orange;
-      }
-      p {
-          font-size: 1.2em;
-          color: #666;
-          margin-bottom: 1.5em;
-      }
-      .button-group {
-          display: flex;
-          justify-content: center;
-          gap: 10px;
-      }
-      .button {
-          background-color: #f05a28;
-          color: white;
-          border: none;
-          padding: 10px 20px;
-          font-size: 1em;
-          cursor: pointer;
-          border-radius: 5px;
-          text-decoration: none;
-      }
-      .button-secondary {
-          background-color: #ddd;
-          color: #333;
-      }
-      .button:hover {
-          opacity: 0.9;
-      }
-  
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1A1A17;
+            color: #F2E4D1;
+            font-family: "Montserrat", sans-serif;
+        }
+        h1, h2 {
+            margin: 0;
+        }
+        .title {
+            font-size: 12em; /* Increased font size /
+            letter-spacing: 0.5em;
+            margin-bottom: -0.1em; / Adjust spacing between LYRA and Get Started /
+        }
+        .subtitle {
+            font-family: "Playwrite CU", cursive;
+            margin-left: -1em;
+            font-size: 3em;
+            text-align: center; / Ensures text is centered /
+            width: 100%; / Ensures the subtitle spans the full width of its container /
+            text-decoration: none; / removes underline /
+            color: inherit; / inherits color from surrounding text */
+        }
+        .subtitle:hover
+        {
+            text-shadow: 0 0 1px #fff, 0 0 4px #fff, 0 0 5px #007bff;
+        }
+        .menu {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 1em;
+            letter-spacing: 0.1em;
+        }
     </style>
-
-        <div class="navbar">
-            <a href="#" class="active">Home</a>
-            <a href="#">About Us</a>
-            <a href="#">Check Your Stats</a>
-        </div>
-        <div class="container">
-            <h1>
-                The Ultimate App For Your <span class="highlight">Skin</span>
-            </h1>
-            <p>
-                Scan your face, figure out your condition, and address
-                seamlessly.
-            </p>    
-            <div class="button-div">
-                <a href="/photo.html" class="button">Scan My Face</a>
-            </div>
-        </div>
-    </body>
+</head>
+<body>
+    <div class="menu">MENU</div>
+    <h1 class="title">LYRA</h1>
+    <a href="photo2.html" class="subtitle">Get Started</a>
+</body>
 </html>
