@@ -60,7 +60,7 @@
             font-size: 40px; /* Increased font size */
             padding: 5px;
             margin-left: 10px;
-            width: 250px; /* Wider field to accommodate bigger text */
+            width: 150px; /* Wider field to accommodate bigger text */
             display: none;
             font-family: 'Courier New', Courier, monospace;
         }
@@ -73,9 +73,83 @@
             height: 50vh;
 
         }
+        .popup {
+            position: relative;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            color: #F2E4D1;
+            visibility: hidden;
+            margin-bottom: 20px;
+            border: 3px solid #F2E4D1;
+            font-family: 'Montserrat', sans-serif;
+            text-transform: capitalize;
+            text-align: center;
+            transition: transform 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .popup.active {
+            transform: translate(-50%, -50%) scale(1);
+            visibility: visible;
+        }
+        .nav-one {
+
+        color: #F2E4D1;
+
+        font-family: "Montserrat", sans-serif;
+
+        font-weight: 600;
+
+        letter-spacing: 3px;
+
+        font-size: 16.35px;
+
+        padding: 1px 50px;
+
+        }
+
+        .nav-bar {
+
+        border: 2px solid #F2E4D1;
+
+        border-radius: 12px;
+
+        padding-top: 10px;
+
+        padding-bottom: 10px;
+
+        display: flex;
+
+        justify-content: center;
+
+        position: absolute;
+
+        top: 30px;
+
+        left: 0;
+
+        right: 0;
+
+        margin: auto;
+
+        width: 1000px;
+
+        }
     </style>
 </head>
 <body>
+    <div class="nav-bar">
+
+        <a href="product.html" class="nav-one">PRODUCTS</a>
+        
+        <a href="index.html" class="nav-one">HOME</a>
+        
+        <a href="routine.html" class="nav-one">ROUTINE</a>
+        
+    </div>
+
     <div class="typewriter-wrapper" id="first-prompt">
         <div class="typewriter" id="first-text">
             What is the most you're willing to spend?
@@ -91,14 +165,16 @@
     </div>
 
     <div id ="product-result" className = "product-result">
-        <h1 id ="recommended-product"></h1>
+        <div id="popup1" class="popup"></div>
+        <div id="popup2" class="popup"></div>
+        <div id="popup3" class="popup"></div>
     </div>
 
 
     <script>
         let budget;
         setTimeout(() => {
-            document.getElementById('spending-input').style.display = 'inline-block';
+            document.getElementById('spending-input').style.display = 'block';
         }, 6000);
 
         document.getElementById('spending-input').addEventListener('change', function() {
@@ -127,7 +203,7 @@
                 document.getElementById('second-prompt').style.display = 'none';
             }, 4000);
 
-            fetch("https://a2b689a6-91a5-4b3b-ac98-c918e6aa7819-00-cjyr5lm2j7ub.kirk.replit.dev/get-products", {
+            fetch("http://localhost:3000/get-products", {
     method: "POST",
     headers: {
       'Content-Type': 'application/json'
@@ -137,8 +213,34 @@
       "spending_amount": budget
     })
   }).then((response) => response.json()).then(data => {
-    console.log(data.products, "dataa");
-    document.getElementById("recommended-product").innerHTML = data.products;
+    setTimeout(()=>{
+        const products = data.products.split('/');
+            if (products.length >= 3) {
+                const product1 = products[0].trim();
+                const product2 = products[1].trim();
+                const product3 = products[2].trim();
+
+                console.log('Product 1:', product1);
+                console.log('Product 2:', product2);
+                console.log('Product 3:', product3);
+
+                // Use these variables as needed in your application
+                // For example, you can display them in popups or elsewhere on the page
+
+                // Example: display product names in popups
+                popup1.innerText = product1;
+                popup1.style.visibility = "visible";
+                document.getElementById('popup1').classList.add('active');
+
+                popup2.innerText = product2;
+                popup2.style.visibility = "visible";
+                document.getElementById('popup2').classList.add('active');
+
+                popup3.innerText = product3;
+                popup3.style.visibility = "visible";
+                document.getElementById('popup3').classList.add('active');
+            }
+    },5000);
   }).catch(error => console.error('Error:', error));
         });
     </script>

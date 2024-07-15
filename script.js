@@ -46,7 +46,7 @@ app.post('/get-products',async (req,res)=> {
   const genAI = new GoogleGenerativeAI("AIzaSyCKL8sFcd6vVbDh3hgweSwB5Ud4MrVB9bI");
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
 
-  const prompt = "Find me three products to solve " + req.body.problem + "with " + req.body.spending_amount + " and just give me the name of the products, no additional filler text. Divide the product with two spaces";
+  const prompt = "Find me three products to solve " + req.body.problem + "with " + req.body.spending_amount + " and just give me the name of the products, no additional filler text. Divide the products with a slash";
 
   const result = await model.generateContent(prompt);
 
